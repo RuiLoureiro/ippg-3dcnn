@@ -8,9 +8,7 @@ from tensorflow.python.keras.callbacks import ModelCheckpoint
 from tensorflow.python.keras.models import model_from_json
 from tensorflow.python.keras.layers import ZeroPadding3D, Dense, Activation,Conv3D,MaxPooling3D,AveragePooling3D,Flatten,Dropout
 
-#from tensorflow.python.keras.utils import np_utils
-from tensorflow.python.keras._impl.keras.utils import np_utils
-
+from tensorflow.keras import utils
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
@@ -52,7 +50,7 @@ labels = np.zeros(NB_CLASSES + 1)
 
 for i in range(NB_CLASSES + 1):
     labels[i] = i
-labels_cat = np_utils.to_categorical(labels)
+labels_cat = utils.to_categorical(labels)
 
 
 EPOCHS = 5000
