@@ -16,6 +16,14 @@ import os
 import scipy.io
 import generate_trend
 
+RESULTS_PATH = "results"
+
+try:
+    open(RESULTS_PATH, 'w')
+except:
+    print(f"Invalid path: {RESULTS_PATH}")
+    exit()
+
 
 # CONSTANTS
 NB_VIDEOS_BY_CLASS_TRAIN = 200
@@ -227,35 +235,35 @@ for batch_nb in range(init_batch_nb, EPOCHS):
     # A. Save the model only if the accuracy is greater than before
     if (SAVE_ALL_MODELS==False):
         if (batch_nb > 0):
-            f1 = open('../../statistics_loss_acc.txt', 'a')
+            f1 = open(f'{RESULTS_PATH}/statistics_loss_acc.txt', 'a')
 
             # save model and weights if val_acc is greater than before
             if (history[1] > np.max(val_acc)):
-                model.save_weights('../../models/weights_conv3D.h5', overwrite=True)   # save (trained) weights
+                model.save_weights(f'{RESULTS_PATH}/models/weights_conv3D.h5', overwrite=True)   # save (trained) weights
                 print('A new model has been saved!\n')
         else:
-            if not os.path.exists('../../models'):
-                os.makedirs('../../models')
+            if not os.path.exists(f'{RESULTS_PATH}/models'):
+                os.makedirs(f'{RESULTS_PATH}/models')
 
-            f1 = open('../../models/statistics_loss_acc.txt', 'w')
+            f1 = open(f'{RESULTS_PATH}/models/statistics_loss_acc.txt', 'w')
             model_json = model.to_json()
-            open('../../models/model_conv3D.json', 'w').write(model_json)        # save model architecture
+            open(f'{RESULTS_PATH}/models/model_conv3D.json', 'w').write(model_json)        # save model architecture
 
     
     # B. Save the model every iteration
     else:
         if (batch_nb > 0):
-            f1 = open('../../models/statistics_loss_acc.txt', 'a')
+            f1 = open(f'{RESULTS_PATH}/models/statistics_loss_acc.txt', 'a')
        
         else:
-            if not os.path.exists('../../models'):
-                os.makedirs('../../models')
+            if not os.path.exists(f'{RESULTS_PATH}/models'):
+                os.makedirs(f'{RESULTS_PATH}/models')
 
-            f1 = open('../../models/statistics_loss_acc.txt', 'w')
+            f1 = open(f'{RESULTS_PATH}/models/statistics_loss_acc.txt', 'w')
             model_json = model.to_json()
-            open('../../models/model_conv3D.json', 'w').write(model_json)                       # save model architecture
+            open(f'{RESULTS_PATH}/models/model_conv3D.json', 'w').write(model_json)                       # save model architecture
 
-        model.save_weights('../../models/weights_conv3D_%04d.h5' % batch_nb, overwrite=True)    # save (trained) weights
+        model.save_weights(f'{RESULTS_PATH}/models/weights_conv3D_%04d.h5' % batch_nb, overwrite=True)    # save (trained) weights
 
     
     
